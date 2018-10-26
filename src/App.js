@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Paper from '@material-ui/core/Paper/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
+import TodoItem from './components/todo-item';
+
+const styles = theme => ({
+  main: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: theme.spacing.unit * 2
+  },
+  paper: {
+    'width': 400
+  }
+});
+
+const todos = [
+    'Pick up some bread',
+    'Shout at Zoe',
+    'Buy Zoe flowers',
+    'Cook a make up dinner'
+];
 
 class App extends Component {
   render() {
+    const {classes} = this.props;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <main className={classes.main}>
+          <Paper className={classes.paper}>
+            {todos.map(todo => (
+                <TodoItem>{todo}</TodoItem>
+            ))}
+          </Paper>
+        </main>
     );
   }
 }
 
-export default App;
+export default withStyles(styles)(App);
