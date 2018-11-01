@@ -18,7 +18,7 @@ const styles = theme => ({
 class TodoItem extends Component {
 
   render() {
-    const {classes} = this.props;
+    const {classes, onDelete} = this.props;
 
     return (
         <>
@@ -26,7 +26,7 @@ class TodoItem extends Component {
             <Typography className={classes.text}>
               {this.props.children}
             </Typography>
-            <IconButton>
+            <IconButton onClick={onDelete}>
               <FaceIcon/>
             </IconButton>
           </section>
