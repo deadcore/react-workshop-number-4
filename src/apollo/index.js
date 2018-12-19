@@ -1,21 +1,33 @@
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { withClientState } from 'apollo-link-state';
-import defaults from './defaults'
+import defaults from './defaults';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
+import resolvers from './resolvers';
+import { persistCache } from 'apollo-cache-persist';
 
-const cache = new InMemoryCache();
+export const client = async () => {
 
-const stateLink = withClientState({
-  cache,
-  defaults
-});
+  const cache = new InMemoryCache();
 
-const apolloClient = new ApolloClient({
-  cache,
-  link: ApolloLink.from([
+  const stateLink = withClientState({
+    cache,
+    defaults,
+    resolvers
+  });
+
+  const apolloClient = new ApolloClient({
+    cache,
+    link: ApolloLink.from([
       stateLink
-  ])
-});
+    ])
+  });
 
-export default apolloClient;
+  await persistCache({
+    cache,
+    storage: window.localStorage
+  });
+
+  return apolloClient;
+
+};
